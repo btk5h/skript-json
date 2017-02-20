@@ -1,0 +1,4 @@
+name: SkriptJSON
+version: 1.0.0
+main: com.btk5h.skriptjson.SkriptJSON
+depend: [Skript]
