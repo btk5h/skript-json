@@ -25,6 +25,7 @@
 
 package com.btk5h.skriptjson.skript;
 
+import com.btk5h.skriptjson.Serializers;
 import com.btk5h.skriptjson.SkriptUtil;
 
 import org.bukkit.event.Event;
@@ -33,6 +34,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -109,6 +111,11 @@ public class ExprJSONToString extends SimpleExpression<String> {
       if (subtree != null) {
         val = subtree;
       }
+    }
+
+    if (!(val instanceof String || val instanceof Number || val instanceof Boolean
+        || val instanceof JSONAware|| val instanceof Map || val instanceof List)) {
+      val = Serializers.serialize(val);
     }
 
     return val;

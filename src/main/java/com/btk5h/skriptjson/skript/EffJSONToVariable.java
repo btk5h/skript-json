@@ -25,6 +25,7 @@
 
 package com.btk5h.skriptjson.skript;
 
+import com.btk5h.skriptjson.Serializers;
 import com.btk5h.skriptjson.SkriptUtil;
 
 import org.bukkit.event.Event;
@@ -86,8 +87,13 @@ public class EffJSONToVariable extends Effect {
 
   private void map(Event e, String name, Object obj) {
     if (obj instanceof JSONObject) {
-      Variables.setVariable(name, true, e, isLocal);
-      handleObject(e, name, (JSONObject) obj);
+      if (((JSONObject) obj).containsKey("__javaclass__")
+          || ((JSONObject) obj).containsKey("__skriptclass__")) {
+        Variables.setVariable(name, Serializers.deserialize(((JSONObject) obj)), e, isLocal);
+      } else {
+        Variables.setVariable(name, true, e, isLocal);
+        handleObject(e, name, (JSONObject) obj);
+      }
     } else if (obj instanceof JSONArray) {
       Variables.setVariable(name, true, e, isLocal);
       handleArray(e, name, (JSONArray) obj);
