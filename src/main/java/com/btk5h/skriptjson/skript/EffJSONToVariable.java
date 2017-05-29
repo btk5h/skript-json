@@ -75,13 +75,17 @@ public class EffJSONToVariable extends Effect {
     }
   }
 
+  private void setVariable(Event e, String name, Object obj) {
+    Variables.setVariable(name.toLowerCase(Locale.ENGLISH), obj, e, isLocal);
+  }
+
   private void mapFirst(Event e, String name, Object obj) {
     if (obj instanceof JSONObject) {
       handleObject(e, name, (JSONObject) obj);
     } else if (obj instanceof JSONArray) {
       handleArray(e, name, (JSONArray) obj);
     } else {
-      Variables.setVariable(name, obj, e, isLocal);
+      setVariable(e, name, obj);
     }
   }
 
@@ -89,16 +93,16 @@ public class EffJSONToVariable extends Effect {
     if (obj instanceof JSONObject) {
       if (((JSONObject) obj).containsKey("__javaclass__")
           || ((JSONObject) obj).containsKey("__skriptclass__")) {
-        Variables.setVariable(name, Serializers.deserialize(((JSONObject) obj)), e, isLocal);
+        setVariable(e, name, Serializers.deserialize(((JSONObject) obj)));
       } else {
-        Variables.setVariable(name, true, e, isLocal);
+        setVariable(e, name, true);
         handleObject(e, name, (JSONObject) obj);
       }
     } else if (obj instanceof JSONArray) {
-      Variables.setVariable(name, true, e, isLocal);
+      setVariable(e, name, true);
       handleArray(e, name, (JSONArray) obj);
     } else {
-      Variables.setVariable(name, obj, e, isLocal);
+      setVariable(e, name, obj);
     }
   }
 
