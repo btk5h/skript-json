@@ -39,6 +39,10 @@ import org.json.simple.parser.ParseException;
 import java.util.Locale;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -47,6 +51,37 @@ import ch.njol.skript.lang.VariableString;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
 
+@Name("Map JSON to Variable")
+@Description("Copies JSON formatted text into a list variable. Existing entries in the list variable are not deleted." +
+		"If the following JSON were mapped to a variable `{json::*}`" +
+		"\n```json" +
+		"\n{" +
+		"\n  \"foo\": 15," +
+		"\n  \"bar\": \"test\","
+		"\n  \"baz\": {" +
+		"\n    \"foobar\": [" +
+		"\n      {" +
+		"\n        \"quux\": false" +
+		"\n      }" +
+		"\n    ]" +
+		"\n  }" +
+		"\n}" +
+		"\n```" +
+		"\nthe following assertions would be true:" +
+		"\n```" +
+		"\n{json::foo} is 15" +
+		"\n{json::bar} is \"test\"" +
+		"\n{json::baz} is true                    # special case" +
+		"\n{json::baz::foobar} is true            # special case" +
+		"\n{json::baz::foobar::1} is true         # special case" +
+		"\n{json::baz::foobar::1::quux} is false" +
+		"\n```" +
+		"\nThe variables marked `# special case` contain nested JSON objects and are true so Skript can properly loop through the variable. These variables (like `{json::baz}`, not list variables like `{json::baz::*}`) can be deleted and the structure will still properly serialize into JSON.")
+@Examples({
+		"set {_input} to \"{\"\"age\"\": 15, \"\"catchphrase\"\": \"\"heeyaw\"\", \"\"nicknames\"\": [\"\"ftaang\"\", \"\"bleh\"\"]}\"",
+		"map json {_input} to {_json::*}"
+})
+@Since("1.0.0")
 public class EffJSONToVariable extends Effect {
 
   static {
