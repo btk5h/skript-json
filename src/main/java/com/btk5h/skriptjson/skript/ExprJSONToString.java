@@ -42,6 +42,10 @@ import java.util.stream.Stream;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.expressions.base.PropertyExpression;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.Variable;
@@ -50,6 +54,12 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
 
+@Name("JSON Form")
+@Description("Converts a list variable into JSON form.")
+@Examples({
+		"set {save} to json form of {_json::*}"
+})
+@Since("1.0.0")
 public class ExprJSONToString extends SimpleExpression<String> {
 
   static {
