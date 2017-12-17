@@ -50,6 +50,14 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
 
+/**
+ * Converts a list variable into JSON form.
+ *
+ * @name JSON Form
+ * @propertyType list variable
+ * @propertyExpression [serialized] json (form|representation)
+ * @return text
+ */
 public class ExprJSONToString extends SimpleExpression<String> {
 
   static {

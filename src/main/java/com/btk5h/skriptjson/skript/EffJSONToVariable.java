@@ -47,6 +47,13 @@ import ch.njol.skript.lang.VariableString;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
 
+/**
+ * Copies JSON formatted text into a list variable. Existing entries in the list variable are not
+ * deleted.
+ *
+ * @name Map JSON to Variable
+ * @pattern (map|copy) [the] json [(of|from)] %text% to [the] [var[iable]] %list variable%"
+ */
 public class EffJSONToVariable extends Effect {
 
   static {

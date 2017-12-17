@@ -47,3 +47,13 @@ dependencies {
   compile 'org.spigotmc:spigot-api:1.11.2-R0.1-SNAPSHOT'
   compile 'ch.njol:skript:2.2-SNAPSHOT'
 }
+
+task buildReadme(type: Javadoc) {
+  source = sourceSets.main.allJava
+  classpath = sourceSets.main.compileClasspath
+  destinationDir = projectDir
+  options.docletpath = [file('tools/skriptdoclet.jar')]
+  options.doclet = 'com.btk5h.skriptdoclet.SkriptDoclet'
+  options.addStringOption('file', 'README.md')
+  options.addStringOption('markdown', '-quiet')
+}

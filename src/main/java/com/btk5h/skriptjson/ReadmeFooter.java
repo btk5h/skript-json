@@ -25,51 +25,47 @@
 
 package com.btk5h.skriptjson;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.IOException;
-
-import ch.njol.skript.Skript;
-import ch.njol.skript.SkriptAddon;
-
 /**
- * # skript-json
+ * ## Structure
  *
- * > Idiomatic JSON integration for Skript. Convert JSON into list variables and vice versa.
+ * If the following JSON were mapped to a variable `{json::*}`
+ *
+ * ```json
+ * {
+ *   "foo": 15,
+ *   "bar": "test",
+ *   "baz": {
+ *     "foobar": [
+ *       {
+ *         "quux": false
+ *       }
+ *     ]
+ *   }
+ * }
+ * ```
+ *
+ * the following assertions would be true:
+ *
+ * ```
+ * {json::foo} is 15
+ * {json::bar} is "test"
+ * {json::baz} is true                    # special case
+ * {json::baz::foobar} is true            # special case
+ * {json::baz::foobar::1} is true         # special case
+ * {json::baz::foobar::1::quux} is false
+ * ```
+ *
+ * The variables marked `# special case` contain nested JSON objects and are true so Skript can
+ * properly loop through the variable. These variables (like `{json::baz}`, not list variables like
+ * `{json::baz::*}`) can be deleted and the structure will still properly serialize into JSON.
+ *
+ * ## Contributing
+ *
+ * Feel free to submit pull requests, just make sure your changes are consistent with
+ * [Google's Java code style](https://google.github.io/styleguide/javaguide.html)!
+ *
+ * @skriptdoc
+ * @index -1
  */
-public class SkriptJSON extends JavaPlugin {
-
-  private static SkriptJSON instance;
-  private static SkriptAddon addonInstance;
-
-  public SkriptJSON() {
-    if (instance == null) {
-      instance = this;
-    } else {
-      throw new IllegalStateException();
-    }
-  }
-
-  @Override
-  public void onEnable() {
-    try {
-      getAddonInstance().loadClasses("com.btk5h.skriptjson", "skript");
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  public static SkriptAddon getAddonInstance() {
-    if (addonInstance == null) {
-      addonInstance = Skript.registerAddon(getInstance());
-    }
-    return addonInstance;
-  }
-
-  public static SkriptJSON getInstance() {
-    if (instance == null) {
-      throw new IllegalStateException();
-    }
-    return instance;
-  }
+public interface ReadmeFooter {
 }
